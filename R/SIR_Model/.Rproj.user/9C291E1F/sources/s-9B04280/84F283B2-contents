@@ -1,0 +1,45 @@
+# Libraries
+install.packages('deSolve', repos='http://probability.ca/cran')
+library('deSolve')
+
+# Declare and prime variables
+N = 1000000 # Total number of people
+S <- N - 1 # Rate of Susceptibility
+I <- 1 # Total number of Infected people
+R <- 0 # Total number of Recovered people
+m <- 0.1 #(S+I+R)/3
+t <- 1
+b <- 0.5
+
+# Make vectors of S, I & R
+while (t<100) {
+  S <- c(S - (b * S * I) / N)
+  I <- c(I + b * ((S * I)/N))
+  R <- c(m * I)
+  t=t+1 
+}
+
+# Range set
+graph_range <- range(0, N)
+
+# Plot it
+plot(t, S, col = "blue", type="b", ylim=graph_range, xlim=(range(0, 100)), axes = TRUE, ann = FALSE)
+lines(t, I, col="green", type="b")
+lines(t, R, col="red")
+
+# Define colors
+#plot_colors <- c("blue", "red", "green")
+
+# Box it
+box()
+
+# Style it
+# Title
+title(main="SIR Infection Model", col.main="blue")
+
+# Label the x & y axes in forest green
+title(xlab="Time", col.lab=rgb(0,0.5,0))
+title(ylab="Total Number of People", col.lab=rgb(0,0.5,0))
+
+# Legend
+#legend(1, graph_range[2], c("S", "I", "R"), cex=0.8, col=c("blue", "forestgreen", "red" ), pch=21:22, type="1, lty=1:2:3);
